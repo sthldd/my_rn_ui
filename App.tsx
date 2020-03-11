@@ -1,116 +1,94 @@
-import React,{useState,useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-  ScrollView,
-  RefreshControl,
-  VirtualizedList,
-  TouchableOpacity,
-  Image,
-  Dimensions
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import Slide from './components/Slide'
 
-type Props = {};
-type State = {};
 
-const {width,height} = Dimensions.get('window')
 
-function App(){
-  const [imgList,setImgList] = useState([{id:1},{id:2}])
+function App() {
+  const [list, setList] = useState(
+    [
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "我是书"
+      },
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "疏忽是"
+      },
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "漱漱空"
+      },
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "中转站"
+      },
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "叔叔在"
+      },
+      {
+        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "title": "季节即"
+      }
+    ]
+  )
+  const [transparent, setIsTransparent] = useState(true)
 
-  const  _renderItem = ({item}) => (
-    <TouchableOpacity onPress={_onPressButton} style={[styles.imgContent,item.id % 2 === 0 ?styles.even:styles.odd]} activeOpacity={1}>
-      <View style={styles.imgBottom}>
-        <Image
-          style={styles.button}
-          source={require('./static/img/aa.jpg')}
-        />
-       <View style={styles.imgBottoma}>
-          <Text style={[styles.leftText,styles.bottomText]}>
-            00:19
-          </Text>
-          <Text style={[styles.rightText,styles.bottomText]}>
-            50
-          </Text>
-       </View>
-      </View>
-    </TouchableOpacity>
-    );
 
-  const _onPressButton = () =>{
-    console.log('你点你爹干啥')
+  const _onPressButton = () => {
+    console.log('我按下了button')
   }
-  return(
-    <View>
-      <View  style={styles.header}>
+  const close = () => {
+    console.log('我他妈的要close了')
+  }
+
+  return (
+    <View style={styles.cell}>
+      <Slide list={list} >
+      </Slide>
+      <View style={styles.buttonGroup}>
+        <TouchableOpacity onPress={_onPressButton} style={styles.btn}>
+          <Text style={{ color: 'white' }}> 上一页</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={close} style={[styles.btn, styles.bottom]}>
+          <Text style={{ color: 'white' }}> 下一页</Text>
+        </TouchableOpacity>
       </View>
-      <ScrollView >
-        <FlatList
-          style={styles.flatListStyle}
-          numColumns ={2}
-          data={[{key: 'a',id:1}, {key: 'b',id:2},{key: 'c',id:3}, {key: 'd',id:4},{key: 'c',id:5}, {key: 'd',id:6}]}
-          renderItem={_renderItem}
-          contentContainerStyle={styles.flatFlex}
-        />
-      </ScrollView>
     </View>
   )
 }
 
+
+
 const styles = StyleSheet.create({
-  header:{
-    borderRadius: 0.5,
-    height: 50,
-    borderStyle: 'solid' ,
-    marginBottom:10
-  },
-  content:{
-    flex: 1,
-  },
-  button:{
-    borderRadius:10,
-    height:300,
-    width:width*0.495,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imgContent:{
-    marginBottom:15,
-  },
-  flatListStyle:{
+  buttonGroup: {
     flexDirection: 'row',
+    position: 'absolute',
+    top:300
   },
-  flatFlex:{
+  cell: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  even:{
-    marginLeft:width*0.005
+  a: {
+    width: 300,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10
   },
-  odd:{
-    marginRight:width*0.005
+  btn: {
+    width: 100,
+    height: 50,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  imgBottom:{
-    position:'relative',
-  },
-  imgBottoma:{
-    position:'absolute',
-    width:width*0.495,
-    bottom:0,
-    flexDirection:'row',
-    justifyContent: 'space-between',
-    paddingVertical:8,
-    paddingHorizontal:10,
-    backgroundColor:'rgba(178,178,178,0.5)',
-    borderBottomLeftRadius:10,
-    borderBottomRightRadius:10,
-  },
-  bottomText:{
-    color:'white',
-    alignItems:'center'
+  bottom: {
+    marginLeft: 15
   }
 });
 

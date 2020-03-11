@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@appandflow/masonry-list": "^0.4.0",
     "react": "16.9.0",
-    "react-native": "0.61.5"
+    "react-native": "0.61.5",
+    "react-native-fast-image": "^7.0.2",
+    "react-timer-mixin": "^0.13.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
