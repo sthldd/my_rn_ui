@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import Slide from './components/Slide'
-
+var { width ,height} = Dimensions.get('window');
 
 
 function App() {
   const [list, setList] = useState(
     [
       {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "icon": "http://placehold.it/400x400/",
         "title": "我是书"
       },
       {
@@ -16,19 +16,19 @@ function App() {
         "title": "疏忽是"
       },
       {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "icon": "http://placehold.it/400x400/",
         "title": "漱漱空"
       },
       {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "icon": "http://placehold.it/400x300/",
         "title": "中转站"
       },
       {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "icon": "http://placehold.it/400x400/",
         "title": "叔叔在"
       },
       {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
+        "icon": "http://placehold.it/400x300/",
         "title": "季节即"
       }
     ]
@@ -36,25 +36,34 @@ function App() {
   const [transparent, setIsTransparent] = useState(true)
 
 
+
   const _onPressButton = () => {
-    console.log('我按下了button')
+      setIsTransparent(false)
   }
   const close = () => {
-    console.log('我他妈的要close了')
   }
 
+  const onIndexChanged = (a:number) =>{
+  }
   return (
     <View style={styles.cell}>
-      <Slide list={list} >
+      <Slide
+          list={list}
+          duration={2000}
+          showsButtons={true}
+          width={width}
+          height={200}
+          onIndexChanged={onIndexChanged}
+      >
       </Slide>
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity onPress={_onPressButton} style={styles.btn}>
-          <Text style={{ color: 'white' }}> 上一页</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={close} style={[styles.btn, styles.bottom]}>
-          <Text style={{ color: 'white' }}> 下一页</Text>
-        </TouchableOpacity>
-      </View>
+      {/*<View style={styles.buttonGroup}>*/}
+      {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
+      {/*    <Text style={{ color: 'white' }}> 上一页</Text>*/}
+      {/*  </TouchableOpacity>*/}
+      {/*  <TouchableOpacity onPress={close} style={[styles.btn, styles.bottom]}>*/}
+      {/*    <Text style={{ color: 'white' }}> 下一页</Text>*/}
+      {/*  </TouchableOpacity>*/}
+      {/*</View>*/}
     </View>
   )
 }
@@ -63,14 +72,14 @@ function App() {
 
 const styles = StyleSheet.create({
   buttonGroup: {
-    flexDirection: 'row',
-    position: 'absolute',
-    top:300
+    // flexDirection: 'row',
+    // position: 'absolute',
+    // top:300
   },
   cell: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   a: {
     width: 300,
