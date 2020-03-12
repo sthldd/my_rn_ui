@@ -2,7 +2,6 @@ import React, { useEffect, useState,useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Dimensions,TextProps } from 'react-native';
 var TimerMixin = require('react-timer-mixin');
 var { width ,height} = Dimensions.get('window');
-//var width = Dimensions.get('window').width - 100;
 interface State {
  currentPage: 0,
  duration:1000,
@@ -180,7 +179,7 @@ function Slide(Props: Props, State: State) {
    </ScrollView>
    <View style={styles.pageViewStyle}>
     {renderPageCircle()}
-    <Text style={{ marginLeft: 15, color: 'red', fontSize: 18 }}>{currentPage}</Text>
+    {/*<Text style={{ marginLeft: 15, color: 'red', fontSize: 18 }}>{currentPage}</Text>*/}
    </View>
    {Props.showsButtons && renderButtons()}
   </View>

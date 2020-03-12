@@ -1,61 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
-import Slide from './components/Slide'
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import LazyLoad from './components/LazyLoad'
 var { width ,height} = Dimensions.get('window');
+const DATA = Array.from({ length: 500 }).map((_, i) => ({
+    id: `item_${i}`,
+    url:'http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg',
+}));
 
 
 function App() {
-  const [list, setList] = useState(
-    [
-      {
-        "icon": "http://placehold.it/400x400/",
-        "title": "我是书"
-      },
-      {
-        "icon": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
-        "title": "疏忽是"
-      },
-      {
-        "icon": "http://placehold.it/400x400/",
-        "title": "漱漱空"
-      },
-      {
-        "icon": "http://placehold.it/400x300/",
-        "title": "中转站"
-      },
-      {
-        "icon": "http://placehold.it/400x400/",
-        "title": "叔叔在"
-      },
-      {
-        "icon": "http://placehold.it/400x300/",
-        "title": "季节即"
-      }
-    ]
-  )
   const [transparent, setIsTransparent] = useState(true)
-
+  const [distance, setDistance] = useState(0)
 
 
   const _onPressButton = () => {
       setIsTransparent(false)
   }
-  const close = () => {
-  }
-
-  const onIndexChanged = (a:number) =>{
-  }
+    const _onScroll = (e):void => {
+        let {y} = e.nativeEvent.contentOffset;
+        setDistance(y)
+    }
   return (
     <View style={styles.cell}>
-      <Slide
-          list={list}
-          duration={2000}
-          showsButtons={true}
-          width={width}
-          height={200}
-          onIndexChanged={onIndexChanged}
-      >
-      </Slide>
+        <ScrollView onScroll = {_onScroll}>
+            {
+                DATA.map((item,index)=>{
+                    return(
+                        <LazyLoad
+                             url={item.url}
+                             key={index}
+                             distance={distance}
+                             placeholderImgWidth={400}
+                             placeholderImgHeight={200}
+                             imageStyle={styles.imageStyle}
+                        />
+                    )
+                })
+            }
+        </ScrollView>
+
+
       {/*<View style={styles.buttonGroup}>*/}
       {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
       {/*    <Text style={{ color: 'white' }}> 上一页</Text>*/}
@@ -76,6 +60,12 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // top:300
   },
+imageStyle: {
+    width: 360,
+    height: 260,
+    resizeMode:'cover',
+    borderRadius: 30,
+},
   cell: {
     // flex: 1,
     // justifyContent: 'center',
