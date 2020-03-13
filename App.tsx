@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView,Image} from 'react-native';
 import LazyLoad from './components/LazyLoad'
 var { width ,height} = Dimensions.get('window');
 const DATA = Array.from({ length: 500 }).map((_, i) => ({
@@ -12,14 +12,28 @@ function App() {
   const [transparent, setIsTransparent] = useState(true)
   const [distance, setDistance] = useState(0)
 
+  useEffect(()=>{
+      fetch()
+  },[])
 
   const _onPressButton = () => {
       setIsTransparent(false)
   }
-    const _onScroll = (e):void => {
+  const _onScroll = (e):void => {
         let {y} = e.nativeEvent.contentOffset;
         setDistance(y)
-    }
+  }
+
+  const fetch = () =>{
+      let url = 'http://placehold.it/700x200/?text=placeholder'
+      Image.getSize(url, (w, h) => {
+         console.log(w,h)
+      }, (err) => {
+          // 获取图片宽高或者下载图片失败
+          console.log(err,'错误')
+      })
+  }
+
   return (
     <View style={styles.cell}>
         <ScrollView onScroll = {_onScroll}>
