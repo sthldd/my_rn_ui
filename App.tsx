@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView,Image} from 'react-native';
-import LazyLoad from './components/LazyLoad'
+import Picker from './components/Picker'
 var { width ,height} = Dimensions.get('window');
 const DATA = Array.from({ length: 200 }).map((_, i) => ({
     id: `item_${i}`,
@@ -11,34 +11,7 @@ const DATA = Array.from({ length: 200 }).map((_, i) => ({
 function App() {
   const [transparent, setIsTransparent] = useState(true)
   const [distance, setDistance] = useState(0)
-    const [list, setList] = useState(
-        [
-            {
-                "url": "https://apod.nasa.gov/apod/image/2003/MoonriseShadowDLopez_1024.jpg",
-                "title": "我是书"
-            },
-            {
-                "url": "http://wx4.sinaimg.cn/large/0077GhfTgy1fsgmrskvyrj31kw11xqv5.jpg",
-                "title": "疏忽是"
-            },
-            {
-                "url": "https://apod.nasa.gov/apod/image/2003/MoonriseShadowDLopez_1024.jpg",
-                "title": "漱漱空"
-            },
-            {
-                "url": "http://placehold.it/400x300/",
-                "title": "中转站"
-            },
-            {
-                "url": "https://apod.nasa.gov/apod/image/2003/MoonriseShadowDLopez_1024.jpg",
-                "title": "叔叔在"
-            },
-            {
-                "url": "http://placehold.it/400x300/",
-                "title": "季节即"
-            }
-        ]
-    )
+
   const _onScroll = (e):void => {
         let {y} = e.nativeEvent.contentOffset;
         setDistance(y)
@@ -47,20 +20,10 @@ function App() {
   return (
     <View style={styles.cell}>
         <ScrollView onScroll = {_onScroll}>
-            {
-                list.map((item,index)=>{
-                   return(
-                       <LazyLoad
-                            source = {{uri: item.url}}
-                            key={index}
-                            distance={distance}
-                            placeholderImgWidth={400}
-                            placeholderImgHeight={200}
-                            imageStyle={styles.imageStyle}
-                       />
-                   )
-               })
-            }
+           <Picker
+            list={['你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的','你妈的','你爸的','你爷的','你奶的']}
+           />
+
         </ScrollView>
       {/*<View style={styles.buttonGroup}>*/}
       {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
