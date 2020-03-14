@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
-import { StyleSheet, View, Image, Dimensions,Text} from 'react-native';
-var {height} = Dimensions.get('window');
+import { StyleSheet, View, Image, Dimensions,Text,InteractionManager} from 'react-native';
+var {width,height} = Dimensions.get('window');
 
 interface State {
     loaded:false
@@ -9,22 +9,25 @@ interface Props {
     placeholderImgWidth:number,
     placeholderImgHeight:number,
     placeholder?:string,
-    url:string,
     distance:number,
     imageStyle:React.CSSProperties,
+    source:any,
+    loadingText:string
 }
 
 
 function LazyLoad(Props: Props, State: State) {
     const [imgDistance, setImgD] = useState(0)
     const [loaded, setLoaded] = useState(false)
+    const [imgHeight, setImgHeight] = useState(0)
+    const [loadingText, setLoadingText] = useState('加载中')
     const _onLayout = (e) => {
         let {y} = e.nativeEvent.layout
         setImgD(y)
     }
 
     useEffect(()=>{
-
+        fetchImg()
     },[loaded])
 
     const loadText = (text:string) => {
@@ -38,34 +41,41 @@ function LazyLoad(Props: Props, State: State) {
         )
     }
 
+
+
     const fetchImg = ()=>{
-        fetch('https://www.fastmock.site/mock/c33f3eadd13fb8e065ecb81c43e1c573/list/image')
-            .then((response) => {
-                console.log(response)
-            })
-            .catch((error) => {
-                // 网络请求失败，处理错误信息
-            });
+        if(height+ Props.distance>=imgDistance){
+          InteractionManager.runAfterInteractions(() => {
+              const {source} = Props
+              if (source.uri) {
+                  // 如果是网络图片 在页面还未加载前，获取图片宽高
+                  Image.getSize(source.uri, (w, h) => {
+                      setImgHeight((h / w) * width)
+                      setLoaded(true)
+                  }, (err) => {
+                      setLoadingText('加载出错')
+                      setLoaded(true)
+                  })
+              }
+          })
+        }
     }
 
     return (
-        (height+ Props.distance>=imgDistance)&&!loaded?(
-            fetchImg()
+        loaded?(
+            <View  onLayout={_onLayout}>
+                <Image  source = {Props.source}  resizeMode = {'contain'} style={Props.imageStyle || styles.imageStyle}/>
+            </View>
         ):(
-            loaded?(
-                <View  onLayout={_onLayout}>
-                    <Image source={{uri:Props.url}} style={Props.imageStyle || styles.imageStyle}/>
-                </View>
-            ):(
-                loadText('加载中')
-            )
+            loadText(Props.loadingText || loadingText)
         )
     )
 }
 LazyLoad.defaultProps = {
     placeholderImgWidth:400,
     placeholderImgHeight:200,
-    placeholder:'placeholder'
+    placeholder:'placeholder',
+    loadingText:''
 }
 
 const styles = StyleSheet.create({
@@ -82,7 +92,6 @@ const styles = StyleSheet.create({
         height: 100,
         marginVertical: 10
     },
-    // 加载样式
     loadText: {
         fontSize: 20,
         color: '#ccc'
@@ -91,4 +100,3 @@ const styles = StyleSheet.create({
 
 export default LazyLoad
 
-    // `http://placehold.it/${Props.placeholderImgWidth}x${Props.placeholderImgHeight}/?text=${Props.placeholder}`
