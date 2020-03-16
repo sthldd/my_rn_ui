@@ -18,6 +18,8 @@ interface Props {
 
 function Picker(Props: Props, State: State) {
     const scrollView  = useRef(null);
+    const [dragStart,setDragStart]  = useState(true);
+    const [momentumStart,setMomentumStart] = useState(true);
     const [wrapperContainer, setWrapperContainer] = useState({
         borderWidth:1,
         borderColor:'red',
@@ -52,19 +54,33 @@ function Picker(Props: Props, State: State) {
 
     let timeOut:any
     const onScrollBeginDrag = (e)=>{
-        //console.log('onScrollBeginDrag')
-        timeOut && clearTimeout(timeOut)
-        timeOut = setTimeout(()=>{
-            scrollToIndex(e.nativeEvent.contentOffset.y);
-        },10)
+
     }
 
     const onScrollEndDrag = (e)=>{
-        scrollToIndex(e)
+        setDragStart(false)
+        console.log(e)
+        let _e = {
+            nativeEvent:{
+                contentOffset:{
+                    y: e.nativeEvent.contentOffset.y,
+                },
+            },
+        };
+        timeOut && clearTimeout(timeOut)
+        timeOut = setTimeout(()=>{
+            if(!dragStart && !momentumStart){
+                scrollToIndex(_e);
+            }
+        },10)
     }
 
     const scrollToIndex = (e) =>{
-        let offSetY = Math.round(e / Props.itemHeight)
+        let y = 0
+        if(e.nativeEvent.contentOffset){
+            y = e.nativeEvent.contentOffset.y
+        }
+        let offSetY = Math.round(y / Props.itemHeight)
         scrollView.current.scrollTo({x:0,y:offSetY*Props.itemHeight,animated:true})
     }
 
@@ -74,6 +90,7 @@ function Picker(Props: Props, State: State) {
 
 
     const onMomentumScrollEnd = ()=>{
+        setMomentumStart(false)
         //console.log('onMomentumScrollEnd')
     }
 
