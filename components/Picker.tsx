@@ -1,19 +1,41 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Image, Dimensions, Text, InteractionManager, ScrollView} from 'react-native';
+import {StyleSheet, View, Dimensions, Text, ScrollView, PixelRatio} from 'react-native';
 var {width,height} = Dimensions.get('window');
-
+console.log(typeof width,'333')
 interface State {
 
 }
 interface Props {
-    list:Array<string>,
+    list:Array<any>,
+    wrapperHeight:number,
+    itemHeight:number,
+    wrapperBackgroundColor?:string,
+    highlightColor?:string,
+    highlightWidth?:number,
+    hairlineWidth?:number,
 }
 
 
 function Picker(Props: Props, State: State) {
     const scrollView  = useRef(null);
-    const [imgDistance, setImgD] = useState(0)
+    const [wrapperContainer, setWrapperContainer] = useState({
+        borderWidth:1,
+        borderColor:'red',
+        height:Props.wrapperHeight,
+        backgroundColor:Props.wrapperBackgroundColor ||'#fafafa',
+        overflow:'hidden',
+    })
 
+    const [highHightStyle,setHighHightStyle] = useState({
+        position:'absolute',
+        top:(Props.wrapperHeight - Props.itemHeight) / 2,
+        height:Props.itemHeight,
+        width:Props.highlightWidth,
+        borderTopColor:'blue',
+        borderBottomColor:'blue',
+        borderTopWidth:StyleSheet.hairlineWidth,
+        borderBottomWidth:StyleSheet.hairlineWidth,
+    })
     useEffect(()=>{
 
     },[])
@@ -26,80 +48,87 @@ function Picker(Props: Props, State: State) {
                     </View>
                 )
             })
-
-    }
-    const onScrollBeginDrag = ()=>{
-        console.log('onScrollBeginDrag')
     }
 
-    const onScrollEndDrag = ()=>{
-        console.log('onScrollEndDrag')
+    let timeOut:any
+    const onScrollBeginDrag = (e)=>{
+        //console.log('onScrollBeginDrag')
+        timeOut && clearTimeout(timeOut)
+        timeOut = setTimeout(()=>{
+            scrollToIndex(e.nativeEvent.contentOffset.y);
+        },10)
+    }
+
+    const onScrollEndDrag = (e)=>{
+        scrollToIndex(e)
+    }
+
+    const scrollToIndex = (e) =>{
+        let offSetY = Math.round(e / Props.itemHeight)
+        scrollView.current.scrollTo({x:0,y:offSetY*Props.itemHeight,animated:true})
     }
 
     const onMomentumScrollBegin = ()=>{
-        console.log('onMomentumScrollBegin')
+        //console.log('onMomentumScrollBegin')
     }
 
 
     const onMomentumScrollEnd = ()=>{
-        console.log('onMomentumScrollEnd')
+        //console.log('onMomentumScrollEnd')
     }
+
+    const paddingClass = () =>{
+        let paddingClassHeight = (Props.wrapperHeight - Props.itemHeight) / 2
+        let header = <View style={{height:paddingClassHeight, flex:1}}></View>;
+        let footer = <View style={{height:paddingClassHeight, flex:1}}></View>;
+        return {header, footer};
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.scrollViewWrapper}>
-                <ScrollView
-                    style={styles.scrollView}
-                    ref={scrollView}
-                    horizontal={false}
-                    pagingEnabled={true}
-                    showsVerticalScrollIndicator={true}
-                    onMomentumScrollBegin={onMomentumScrollBegin}
-                    onMomentumScrollEnd={onMomentumScrollEnd}
-                    onScrollBeginDrag={onScrollBeginDrag}
-                    onScrollEndDrag={onScrollEndDrag}
-                >
-                  {renderList()}
-                </ScrollView>
-            </View>
-        </View>
+
+    <View style={wrapperContainer}>
+      <View style={highHightStyle}></View>
+      <ScrollView
+          style={styles.scrollView}
+          ref={scrollView}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          onMomentumScrollBegin={onMomentumScrollBegin}
+          onMomentumScrollEnd={onMomentumScrollEnd}
+          onScrollBeginDrag={onScrollBeginDrag}
+          onScrollEndDrag={onScrollEndDrag}
+          horizontal={false}
+          >
+          {paddingClass().header}
+          {renderList()}
+          {paddingClass().footer}
+      </ScrollView>
+    </View>
     )
 }
 Picker.defaultProps = {
-
+    borderTopColor:'blue',
+    borderBottomColor:'blue',
+    borderTopWidth:1,
+    borderBottomWidth:1,
+    highlightWidth:width,
 }
 
 const styles = StyleSheet.create({
-    container:{
+    indicator: {
 
     },
-    scrollViewWrapper:{
 
-    },
-    scrollView:{
-        borderColor:'black',
-        borderWidth:1,
-        marginTop: 100,
-        height:200,
-    },
-    contentContainer:{
-        flex:1,
-    },
-    pickWrapper:{
-        borderColor:'black',
-        borderBottomWidth:1,
-        borderTopWidth:1,
-        justifyContent:'center',
-        alignItems:'center',
-        width:200,
-        paddingHorizontal:15,
-        paddingVertical:10,
+    scrollView: {
+
     },
     pickItem:{
         height:50,
-        paddingVertical: 12,
-        textAlign:'center',
-        lineHeight:25,
-        textAlignVertical:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    selectedItemText: {
+
     }
 });
 
