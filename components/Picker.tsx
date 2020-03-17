@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View, Dimensions, Text, ScrollView, PixelRatio} from 'react-native';
 var {width,height} = Dimensions.get('window');
-console.log(typeof width,'333')
 interface State {
 
 }
@@ -13,6 +12,9 @@ interface Props {
     highlightColor?:string,
     highlightWidth?:number,
     hairlineWidth?:number,
+    selectIndex:number,
+    renderItem():React.ReactElement<any>,
+    onChange():React.ReactElement<any>,
 }
 
 
@@ -24,13 +26,12 @@ function Picker(Props: Props, State: State) {
         borderWidth:1,
         borderColor:'red',
         height:Props.wrapperHeight,
-        backgroundColor:Props.wrapperBackgroundColor ||'#fafafa',
+        backgroundColor:Props.wrapperBackgroundColor,
         overflow:'hidden',
     })
 
     const [highHightStyle,setHighHightStyle] = useState({
         position:'absolute',
-        top:(Props.wrapperHeight - Props.itemHeight) / 2,
         height:Props.itemHeight,
         width:Props.highlightWidth,
         borderTopColor:'blue',
@@ -38,28 +39,37 @@ function Picker(Props: Props, State: State) {
         borderTopWidth:StyleSheet.hairlineWidth,
         borderBottomWidth:StyleSheet.hairlineWidth,
     })
+
+
+
     useEffect(()=>{
+        scrollDefaultIndex()
+    })
 
-    },[])
+    const scrollDefaultIndex = () =>{
+        setTimeout(()=>{
+            scrollView.current.scrollTo({x:0,y:Props.selectIndex*Props.itemHeight,animated:true})
+        })
+    }
 
-    const renderList = () => {
-        return Props.list.map((item,index)=>{
-                return(
-                    <View style={styles.pickItem} key={index}>
-                        <Text>{item}</Text>
-                    </View>
-                )
-            })
+    const renderList = (item,index) => {
+        if(Props.renderItem){
+             return Props.renderItem(item,index)
+        }
+        return(
+            <View style={styles.pickItem} key={index}>
+                <Text>{item}</Text>
+            </View>
+        )
     }
 
     let timeOut:any
     const onScrollBeginDrag = (e)=>{
-
+        timeOut && clearTimeout(timeOut)
     }
 
     const onScrollEndDrag = (e)=>{
         setDragStart(false)
-        console.log(e)
         let _e = {
             nativeEvent:{
                 contentOffset:{
@@ -82,16 +92,23 @@ function Picker(Props: Props, State: State) {
         }
         let offSetY = Math.round(y / Props.itemHeight)
         scrollView.current.scrollTo({x:0,y:offSetY*Props.itemHeight,animated:true})
+
+        if(Props.onChange){
+            let selectIndexValue = Props.list[offSetY]
+            Props.onChange(selectIndexValue,offSetY)
+        }
     }
 
     const onMomentumScrollBegin = ()=>{
-        //console.log('onMomentumScrollBegin')
+        timeOut && clearTimeout(timeOut)
     }
 
 
-    const onMomentumScrollEnd = ()=>{
+    const onMomentumScrollEnd = (e)=>{
         setMomentumStart(false)
-        //console.log('onMomentumScrollEnd')
+        if(!momentumStart && !dragStart){
+            scrollToIndex(e);
+        }
     }
 
     const paddingClass = () =>{
@@ -104,7 +121,7 @@ function Picker(Props: Props, State: State) {
     return (
 
     <View style={wrapperContainer}>
-      <View style={highHightStyle}></View>
+      <View style={[highHightStyle,{top:(Props.wrapperHeight - Props.itemHeight) / 2}]}></View>
       <ScrollView
           style={styles.scrollView}
           ref={scrollView}
@@ -117,7 +134,9 @@ function Picker(Props: Props, State: State) {
           horizontal={false}
           >
           {paddingClass().header}
-          {renderList()}
+          {
+              Props.list.map((item,index)=>renderList(item,index))
+          }
           {paddingClass().footer}
       </ScrollView>
     </View>
@@ -129,16 +148,10 @@ Picker.defaultProps = {
     borderTopWidth:1,
     borderBottomWidth:1,
     highlightWidth:width,
+    wrapperBackgroundColor:'#fafafa',
 }
 
 const styles = StyleSheet.create({
-    indicator: {
-
-    },
-
-    scrollView: {
-
-    },
     pickItem:{
         height:50,
         justifyContent: 'center',

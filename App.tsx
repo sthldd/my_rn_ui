@@ -3,23 +3,32 @@ import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView,Image} 
 import Picker from './components/Picker'
 var { width ,height} = Dimensions.get('window');
 
-const distance = ['你你','好好','嘛嘛','我我','爱爱','你你','嘛嘛','的的','皮皮','下下','的的']
+const distance = ['11','22','33','44','55','66','77','88','99','1010','1111']
 
 function App() {
   const [transparent, setIsTransparent] = useState(true)
-  const [a, setDistance] = useState()
 
-  const onChange = (e):void => {
-
+  const renderItem = (item,index) => {
+      return (
+          <View style={styles.pickItem} key={index}>
+            <Text>{item}</Text>
+          </View>
+      )
   }
 
+  const onChange = (selectIndexValue,selectIndex) =>{
+
+  }
   console.log(distance,'333')
   return (
     <View style={styles.cell}>
         <Picker
             list={distance}
-            wrapperHeight={150}
+            wrapperHeight={200}
             itemHeight={50}
+            selectIndex={1}
+            renderItem={renderItem}
+            onChange={onChange}
             />
       {/*<View style={styles.buttonGroup}>*/}
       {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
@@ -48,16 +57,10 @@ imageStyle: {
     borderRadius: 30,
 },
   cell: {
+    paddingTop:50,
     // flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-  },
-  a: {
-    width: 300,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10
   },
   btn: {
     width: 100,
@@ -69,7 +72,12 @@ imageStyle: {
   },
   bottom: {
     marginLeft: 15
-  }
+  },
+  pickItem:{
+    height:50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default App
