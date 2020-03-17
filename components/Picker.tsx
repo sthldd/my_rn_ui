@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Dimensions, Text, ScrollView, PixelRatio} from 'react-native';
-var {width,height} = Dimensions.get('window');
+import {StyleSheet, View, Dimensions, Text, ScrollView} from 'react-native';
+var {width} = Dimensions.get('window');
 interface State {
 
 }
