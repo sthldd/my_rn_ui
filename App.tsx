@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView,Image} from 'react-native';
-import SegmentedControl  from './components/SegmentedControl'
 var { width ,height} = Dimensions.get('window');
-
+import NoticeBar from './components/NoticeBar'
 
 function App() {
   const [defaultIndex, setDefaultIndex] = useState(1)
+  useEffect(()=>{
 
+  })
 
-  const onChange = (selectIndexValue,selectIndex) =>{
-      console.log('1111')
-      setDefaultIndex(selectIndex)
+  const onChange = () =>{
+    console.log('你惦记了我')
   }
   return (
     <View style={styles.cell}>
-        <SegmentedControl
-            values={['Segment1', 'Segment2']}
-            defaultIndex={defaultIndex}
-            onChange={onChange}
-            opacity={0.2}
-            />
+      <NoticeBar
+          mode='close'
+          onPress={onChange}
+      />
       {/*<View style={styles.buttonGroup}>*/}
       {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
       {/*    <Text style={{ color: 'white' }}> 上一页</Text>*/}
@@ -40,14 +38,8 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // top:300
   },
-imageStyle: {
-    width: 360,
-    height: 260,
-    resizeMode:'cover',
-    borderRadius: 30,
-},
   cell: {
-    paddingTop:50,
+    paddingTop:150,
     // flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',

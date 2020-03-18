@@ -58,7 +58,7 @@ function Slide(Props: Props, State: State) {
   for (let i = 0; i < Props.list.length; i++) {
    nodeArr.push(
        <View style={styles.imgContainer}>
-        <Image key={i} source={{ uri: Props.list[i].icon }} style={{width:Props.width, height: Props.height,}} />
+        <Image key={i} source={{ uri: Props.list[i].iconStyleicon }} style={{width:Props.width, height: Props.height,}} />
        </View>
 
    )
