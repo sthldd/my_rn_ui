@@ -7,7 +7,8 @@ interface State {
 interface Props {
     mode?:'link' | 'close' | undefined,
     onPress:() => void,
-    action:JSX.Element
+    action:JSX.Element,
+    content:string
 }
 
 function NoticeBar(Props: Props, State: State) {
@@ -39,7 +40,7 @@ function NoticeBar(Props: Props, State: State) {
                   numberOfLines={1}
                   ellipsizeMode='tail'
                   onPress={Props.onPress}
-            >你好你好你好你好你好你好你好你好你好</Text>
+            >{Props.content}</Text>
         )
     }
 
@@ -63,6 +64,7 @@ function NoticeBar(Props: Props, State: State) {
     )
 }
 NoticeBar.defaultProps = {
+    content:''
 }
 
 const styles = StyleSheet.create({
@@ -82,7 +84,6 @@ const styles = StyleSheet.create({
       flexGrow:1,
       marginLeft:5,
       fontWeight:'bold',
-      overflow:'hidden',
       width:150,
     },
     closeIcon:{
