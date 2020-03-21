@@ -34,8 +34,6 @@ interface Props {
 function Waterfall(Props: Props, State: State) {
  return (
   <Modal
-   animationType="slide"
-   transparent={false}
    visible={Props.isVisible}
    onRequestClose={Props.onRequestClose}
    onShow={Props.onShow}

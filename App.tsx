@@ -1,60 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Image, Animated} from 'react-native';
 var { width ,height} = Dimensions.get('window');
-import Listitem from './components/Listitem'
-let a = 0
-function App() {
-  const [defaultIndex, setDefaultIndex] = useState(1)
-  const [value,setValue] = useState(0)
-  useEffect(()=>{
+import Toast from "./components/Toast";
 
+
+function App() {
+  const childRef = useRef()
+  useEffect(()=>{
   })
   const _onPressButton = () =>{
-    setValue(a++)
+    console.log('button')
   }
   const onChange = () =>{
-    console.log('你惦记了我')
+    Toast.showSuccess('报名成功啦')
   }
+
   return (
-    <View style={styles.cell}>
-      <Listitem
-        thumbUrl={'https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png'}
-        nodeText={'你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹'}
-        itemText={'系统设置'}
-        onPress={onChange}
-        extra={
-          <Image
-              source={{
-                uri:
-                    'https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png',
-              }}
-              style={{ width: 29, height: 29 }}
-          />
-        }
-      />
-      <Listitem
-          thumbUrl={'https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png'}
-          nodeText={'你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹你好我是你爹'}
-          itemText={'系统设置'}
-          onPress={onChange}
-          extra={
-            <Image
-                source={{
-                  uri:
-                      'https://os.alipayobjects.com/rmsportal/mOoPurdIfmcuqtr.png',
-                }}
-                style={{ width: 29, height: 29 }}
-            />
-          }
-      />
-      {/*<View style={styles.buttonGroup}>*/}
-      {/*  <TouchableOpacity onPress={_onPressButton} style={styles.btn}>*/}
-      {/*    <Text style={{ color: 'white' }}> 上一页</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <TouchableOpacity onPress={_onPressButton} style={[styles.btn, styles.bottom]}>*/}
-      {/*    <Text style={{ color: 'white' }}> 下一页</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</View>*/}
+    <View style={styles.cell} >
+      <View style={styles.buttonGroup}>
+        <TouchableOpacity onPress={onChange} style={styles.btn}>
+          <Text style={{ color: 'white' }}> 上一页</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={_onPressButton} style={[styles.btn, styles.bottom]}>
+          <Text style={{ color: 'white' }}> 下一页</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
