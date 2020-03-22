@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Image, Animated} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Image, ActivityIndicator} from 'react-native';
 var { width ,height} = Dimensions.get('window');
 import Toast from "./components/Toast";
 
@@ -12,7 +12,7 @@ function App() {
     console.log('button')
   }
   const onChange = () =>{
-    Toast.showSuccess('报名成功啦')
+   Toast.showInfo('报名成功啦',{duration:2000})
   }
 
   return (

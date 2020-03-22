@@ -2,7 +2,7 @@ import React from 'react';
 import RootSiblings from 'react-native-root-siblings';
 import ToasContanier from './ToastContainer';
 
-let rootSibling = null;
+let rootSibling:any
 
 function destroy() {
     if (rootSibling) {
@@ -10,29 +10,35 @@ function destroy() {
     }
 }
 
+interface option {
+    position?:number,
+    duration?:number,
+    backgroundColor?:string,
+    textColor?:string
+}
+
 export default class Toast {
 
-    static showSuccess (message) {
+    static showSuccess (message:string,option?:option) {
         let opts = {'showSuccess':true,'showInfo':true}
         this.show(message,opts);
     }
 
-    static showFail (message) {
+    static showFail (message:string,option?:option) {
         let opts = {'showFail':true,'showInfo':true}
         this.show(message,opts);
     }
-
-    static showInfo (message) {
-        let opts = {'showInfo':true}
+    static showInfo (message:string,option?:option) {
+        let opts = Object.assign({'showInfo':true}, option)
         this.show(message,opts);
     }
 
-    static showWarn (message) {
-        let opts = {'showWarn':true,'showInfo':true}
+    static showError (message:string,option?:option) {
+        let opts = {'showError':true,'showInfo':true}
         this.show(message,opts);
     }
 
-    static show(message, options) {
+    static show(message:string, options:option) {
         if (rootSibling) {
             rootSibling.destroy()
         }
