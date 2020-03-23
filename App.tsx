@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView, Image, ActivityIndicator} from 'react-native';
 var { width ,height} = Dimensions.get('window');
-import Toast from "./components/Toast";
-
+import * as Animatable from 'react-native-animatable';
+import Tooltip from "./components/Tooltip";
+import Popover from "./components/Popover";
 
 function App() {
   const childRef = useRef()
@@ -12,19 +13,27 @@ function App() {
     console.log('button')
   }
   const onChange = () =>{
-   Toast.showInfo('报名成功啦',{duration:2000})
-  }
 
+  }
   return (
     <View style={styles.cell} >
+      <Popover
+          popoverContent={
+            <Text style={{color:'white'}}>工作日每天一</Text>
+          }
+          buttonContent={
+            <Text style={styles.text} >你好我是你爹</Text>
+          }
+      />
       <View style={styles.buttonGroup}>
-        <TouchableOpacity onPress={onChange} style={styles.btn}>
-          <Text style={{ color: 'white' }}> 上一页</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={_onPressButton} style={[styles.btn, styles.bottom]}>
-          <Text style={{ color: 'white' }}> 下一页</Text>
-        </TouchableOpacity>
-      </View>
+        {/*<Tooltip*/}
+        {/*    height={100}*/}
+        {/*    width={200}*/}
+        {/*    popover={<Text>Info here</Text>}*/}
+        {/*>*/}
+        {/*  <Text>啊啊啊啊啊啊啊啊</Text>*/}
+        {/*</Tooltip>*/}
+    </View>
     </View>
   )
 }
@@ -38,7 +47,8 @@ const styles = StyleSheet.create({
     top:300
   },
   cell: {
-    paddingTop:10,
+   paddingTop:200,
+    //paddingTop:10,
     // flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
@@ -59,6 +69,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text:{
+    height:60,
+    width:160,
+    backgroundColor: 'black',
+    color:'red'
+  }
 });
 
 export default App

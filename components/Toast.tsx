@@ -20,12 +20,12 @@ interface option {
 export default class Toast {
 
     static showSuccess (message:string,option?:option) {
-        let opts = {'showSuccess':true,'showInfo':true}
+        let opts = Object.assign({'showInfo':true}, option)
         this.show(message,opts);
     }
 
     static showFail (message:string,option?:option) {
-        let opts = {'showFail':true,'showInfo':true}
+        let opts = Object.assign({'showInfo':true}, option)
         this.show(message,opts);
     }
     static showInfo (message:string,option?:option) {
@@ -34,7 +34,7 @@ export default class Toast {
     }
 
     static showError (message:string,option?:option) {
-        let opts = {'showError':true,'showInfo':true}
+        let opts = Object.assign({'showInfo':true}, option)
         this.show(message,opts);
     }
 
