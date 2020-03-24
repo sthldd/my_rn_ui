@@ -40,15 +40,12 @@ function Slide(Props: Props, State: State) {
   let listLength = Props.list.length
   time =  mixins.setInterval(() => {
     let value = 0
-   //console.log('222')
     if((currentPage+1)>=listLength){
      value = 0
     }else{
      value = currentPage+1
     }
-    //console.log('333',value)
    setCurrentPage(value)
-    //console.log('44',currentPage)
    scrollView.current.scrollTo({x:value*Props.width,y:0,animated:true})
   }, Props.duration)
  }
@@ -179,7 +176,6 @@ function Slide(Props: Props, State: State) {
    </ScrollView>
    <View style={styles.pageViewStyle}>
     {renderPageCircle()}
-    {/*<Text style={{ marginLeft: 15, color: 'red', fontSize: 18 }}>{currentPage}</Text>*/}
    </View>
    {Props.showsButtons && renderButtons()}
   </View>

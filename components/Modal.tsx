@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, PixelRatio, TouchableOpacity, Modal, View, Text, Image } from 'react-native'
+import { StyleSheet, Dimensions,TouchableOpacity, Modal, View, Text, Image } from 'react-native'
 
-const pixel = PixelRatio.get()
-const { width, height } = Dimensions.get('window')
 interface State {
  hasChildren: true,
  transparent: false,

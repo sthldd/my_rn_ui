@@ -16,7 +16,6 @@ function NoticeBar(Props: Props, State: State) {
         [require('../static/img/closable.png'),require('../static/img/link.png')]
     )
     const [isVisible,setIsVisible] = useState(true)
-    const [left,setLeft] = useState(new Animated.Value(0))
 
     const closeNotice = () =>{
         setIsVisible(false)

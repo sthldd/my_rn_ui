@@ -1,7 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, Dimensions,Modal,TouchableWithoutFeedback,findNodeHandle,UIManager } from 'react-native';
+import { StyleSheet,View,TouchableOpacity, Dimensions,Modal,findNodeHandle,UIManager } from 'react-native';
 var { width ,height} = Dimensions.get('window');
-import * as Animatable from 'react-native-animatable';
 interface State {
 
 }
@@ -20,54 +19,43 @@ function  Popover(Props: Props, State: State) {
     const [modalViewHeight,setModalViewHeight] = useState(0)
     const [popoverComponentXY,setPopoverComponentXY] = useState<any>([])
     const [popoverComponentWH,setPopoverComponentWH] = useState<any>([])
+    const [popoverH,setPopoverH] = useState<any>(0)
+    const [popoverTop,setPopoverTop] = useState<any>(0)
+
     const [buttonContentXY,setButtonContentXY] = useState<any>([])
-    const [buttonContentWH,setButtonContentWH] = useState<any>([])
-    const [bottomVal,setBottomVal] = useState<any>(0)
     const wrapperRef = useRef<any>()
     const modalRef = useRef<any>()
-    const view = useRef<any>()
     const open = async () =>{
         setToggleContent(true)
         setIsVisible(true)
         let popoverComponentXY = await getElementWeightAndHeight(wrapperRef.current)
         let buttonContentXY = await getElementWeightAndHeight(modalRef.current)
-        let views = await getElementWeightAndHeight(view.current)
 
         //设置popover的xy和宽高
         setPopoverComponentWH([popoverComponentXY[2],popoverComponentXY[3]])
-        setPopoverComponentXY(popoverComponentXY)
+        setPopoverComponentXY([popoverComponentXY[0],popoverComponentXY[1]])
+
 
         //设置button的xy和宽高
-        setButtonContentXY(buttonContentXY)
+        setButtonContentXY([buttonContentXY[0],buttonContentXY[1]])
         setPopoverComponentWH([buttonContentXY[2],buttonContentXY[3]])
-        if((popoverComponentXY[1] - modalViewHeight) < height / 2  ){
-            console.log('pop在下面')
+        if((popoverComponentXY[1] - modalViewHeight) < height / 2 - 50  ){
             setSingleDown(true)
+        }else{
+            setSingleDown(false)
         }
+        setPopoverTop(singleDown ? popoverComponentXY[1] :popoverComponentXY[1] - popoverH - modalViewHeight)
+
     }
 
     const getElementWeightAndHeight = (element:object) =>{
         const handle = findNodeHandle(element)
         return new Promise((resolve, reject)=>{
             UIManager.measure(handle,(x, y, width, height, pageX, pageY)=>{
-                // console.log('open开始--------------');
-                // console.log('距离屏幕的绝对位置x:', pageX);
-                // console.log('距离屏幕的绝对位置y:', pageY);
-                // console.log('自己的宽度:', width);
-                // console.log('自己的高度:', height);
-                // console.log('open结束--------------');
                 resolve([pageX,pageY,width,height])
             })
 
         })
-    }
-
-
-    const onClose = () =>{
-
-    }
-    const onOpen = () =>{
-
     }
 
     const close = () =>{
@@ -81,6 +69,9 @@ function  Popover(Props: Props, State: State) {
         setModalViewHeight(e.nativeEvent.layout.height)
     }
 
+    const getButtonContentHeight = (e) =>{
+        setPopoverH(e.nativeEvent.layout.height)
+    }
     const renderPopoverContent = () =>{
         return(
             <View  style={styles.modalContent}>
@@ -102,36 +93,37 @@ function  Popover(Props: Props, State: State) {
                     </View>
                 ):null
             }
-
                 <Modal
                     visible={isVisible}
                     animationType="none"
                     transparent
-                    onDismiss={onClose}
-                    onRequestClose={onClose}
                 >
                     <TouchableOpacity   activeOpacity={1} ref={modalRef} onPress={close} style={[
                         styles.modalContentWrapper,
                     ]}>
                         {
                             toggleContent?(
-                                <View style={{position:'relative',top:popoverComponentXY[1]}}>
+                                <View style={{
+                                    position:'relative',
+                                    top:popoverComponentXY[1],
+                                    left:popoverComponentXY[0],
+                                }}
+                                      onLayout = {(event)=>getButtonContentHeight(event)}
+                                >
                                     {Props.buttonContent}
                                 </View>
                             ):null
                         }
                         <View
-                            ref={view}
                             onLayout = {(event)=>onLayout(event)}
                             style={{
                             position:'relative',
-                            top:popoverComponentXY[1],
-                            left:20,
+                            top: popoverTop,
+                            left:popoverComponentXY[0] < 20 ? 20:popoverComponentXY[0],
                         }}>
                             {
                                 !singleDown?null:(
                                     <View  style={[styles.modalContentSingle,styles.modalContentTopSingle]} />
-
                                 )
                             }
                             {renderPopoverContent()}
@@ -156,7 +148,7 @@ Popover.defaultProps = {
 const styles = StyleSheet.create({
     modalContentWrapper:{
         flex: 1,
-        backgroundColor: '#00000080',
+        backgroundColor: '#F7F7F7',
     },
     modalContent:{
         backgroundColor:'#000',

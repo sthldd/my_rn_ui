@@ -47,11 +47,7 @@ const styles = StyleSheet.create({
     top:300
   },
   cell: {
-   paddingTop:200,
-    //paddingTop:10,
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+
   },
   btn: {
     width: 100,

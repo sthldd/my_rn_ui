@@ -16,7 +16,7 @@ interface Props {
 }
 
 
-function LazyLoad(Props: Props, State: State) {
+function LazyLoad(Props: Props, State: State){
     const [imgDistance, setImgD] = useState(0)
     const [loaded, setLoaded] = useState(false)
     const [imgHeight, setImgHeight] = useState(0)
@@ -40,8 +40,6 @@ function LazyLoad(Props: Props, State: State) {
             </View>
         )
     }
-
-
 
     const fetchImg = ()=>{
         if(height+ Props.distance>=imgDistance){
