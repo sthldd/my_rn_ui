@@ -1,62 +1,62 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Dimensions, Text, TouchableOpacity,Image} from 'react-native';
-var {width} = Dimensions.get('window');
+import React from 'react';
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, Image } from 'react-native';
+var { width } = Dimensions.get('window');
 interface State {
 
 }
 interface Props {
-    thumbUrl?:string,
-    nodeText?:string,
-    itemText:string,
-    rightIcon?:boolean,
-    rightText?:string,
-    onPress?:()=>void,
+    thumbUrl?: string,
+    nodeText?: string,
+    itemText: string,
+    rightIcon?: boolean,
+    rightText?: string,
+    onPress?: () => void,
     extra?: React.ReactNode,
 }
 
-function Listitem(Props: Props, State: State){
+function Listitem(Props: Props, State: State) {
 
-    const leftRender = () =>{
-        return(
+    const leftRender = () => {
+        return (
             <View style={styles.itemLeftWrapper}>
                 {
-                    Props.thumbUrl ?(
-                        <Image source={{uri:Props.thumbUrl}} style={styles.itemLeftIcon} />
-                    ):null
+                    Props.thumbUrl ? (
+                        <Image source={{ uri: Props.thumbUrl }} style={styles.itemLeftIcon} />
+                    ) : null
                 }
                 <Text style={styles.itemTextStyle}>{Props.itemText}</Text>
                 {
-                    Props.nodeText?(
+                    Props.nodeText ? (
                         <Text
                             style={styles.nodeTextStyle}
                             numberOfLines={1}
                             ellipsizeMode='tail'
                         >{Props.nodeText}</Text>
-                    ):null
+                    ) : null
                 }
             </View>
         )
     }
 
-    const rightRender = () =>{
-        return(
+    const rightRender = () => {
+        return (
             <View>
                 {
-                    Props.rightIcon ?(
-                        <Image source={require('../static/img/right.png')} style={styles.rightIconStyle}/>
-                    ):(
-                        Props.rightText?(
-                            <Text>{Props.rightText}</Text>
-                        ):(
-                            extra()
+                    Props.rightIcon ? (
+                        <Image source={require('../static/img/right.png')} style={styles.rightIconStyle} />
+                    ) : (
+                            Props.rightText ? (
+                                <Text>{Props.rightText}</Text>
+                            ) : (
+                                    extra()
+                                )
                         )
-                    )
                 }
             </View>
         )
     }
 
-    const renderItem = () =>{
+    const renderItem = () => {
         return (
             <TouchableOpacity style={styles.listItemStyle} onPress={Props.onPress}>
                 <View style={styles.itemWrapper}>
@@ -80,7 +80,7 @@ function Listitem(Props: Props, State: State){
             if (React.isValidElement(Props.extra)) {
                 const extraChildren = (Props.extra.props as any).children;
                 if (Array.isArray(extraChildren)) {
-                     const tempExtraDom: any[] = [];
+                    const tempExtraDom: any[] = [];
                     extraChildren.forEach((el, index) => {
                         if (typeof el === 'string') {
                             tempExtraDom.push(
@@ -112,45 +112,45 @@ function Listitem(Props: Props, State: State){
     )
 }
 Listitem.defaultProps = {
-    rightIcon:false
+    rightIcon: false
 }
 
 const styles = StyleSheet.create({
-    wapperContainer:{
-        paddingVertical:5,
-        paddingHorizontal:10,
+    wapperContainer: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
     },
-    listItemStyle:{
+    listItemStyle: {
         borderBottomWidth: 1,
-        borderBottomColor:'rgb(221, 221, 221)',
-        paddingVertical:10,
+        borderBottomColor: 'rgb(221, 221, 221)',
+        paddingVertical: 10,
     },
-    itemWrapper:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
+    itemWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
-    itemLeftWrapper:{
-      flexDirection:'row',
-      alignItems:'center',
+    itemLeftWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    itemLeftIcon:{
-        height:30,
-        width:30,
-        marginRight:8,
+    itemLeftIcon: {
+        height: 30,
+        width: 30,
+        marginRight: 8,
     },
-    itemTextStyle:{
-        fontWeight:'bold',
+    itemTextStyle: {
+        fontWeight: 'bold',
     },
-    nodeTextStyle:{
-        color:'rgb(136, 136, 136)',
-        fontSize:12,
-        marginLeft:5,
-        maxWidth:width / 1.9,
+    nodeTextStyle: {
+        color: 'rgb(136, 136, 136)',
+        fontSize: 12,
+        marginLeft: 5,
+        maxWidth: width / 1.9,
     },
-    rightIconStyle:{
-        height:30,
-        width:30,
+    rightIconStyle: {
+        height: 30,
+        width: 30,
     }
 });
 

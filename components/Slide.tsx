@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Dimensions,TextProps } from 'react-native';
 var TimerMixin = require('react-timer-mixin');
-var { width ,height} = Dimensions.get('window');
+var { width} = Dimensions.get('window');
 interface State {
  currentPage: 0,
  duration:1000,
