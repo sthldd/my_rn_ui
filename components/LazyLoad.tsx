@@ -1,100 +1,107 @@
-import React, { useEffect, useState} from 'react';
-import { StyleSheet, View, Image, Dimensions,Text,InteractionManager} from 'react-native';
-var {width,height} = Dimensions.get('window');
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  Text,
+  InteractionManager,
+} from 'react-native';
+var {width, height} = Dimensions.get('window');
 
 interface State {
-    loaded:false
+  loaded: false;
 }
 interface Props {
-    placeholderImgWidth:number,
-    placeholderImgHeight:number,
-    placeholder?:string,
-    distance:number,
-    imageStyle:React.CSSProperties,
-    source:any,
-    loadingText:string
+  placeholderImgWidth: number;
+  placeholderImgHeight: number;
+  placeholder?: string;
+  distance: number;
+  imageStyle: React.CSSProperties;
+  source: any;
+  loadingText: string;
 }
 
+function LazyLoad(Props: Props, State: State) {
+  const [imgDistance, setImgD] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [imgHeight, setImgHeight] = useState(0);
+  const [loadingText, setLoadingText] = useState('加载中');
+  const _onLayout = e => {
+    let {y} = e.nativeEvent.layout;
+    setImgD(y);
+  };
 
-function LazyLoad(Props: Props, State: State){
-    const [imgDistance, setImgD] = useState(0)
-    const [loaded, setLoaded] = useState(false)
-    const [imgHeight, setImgHeight] = useState(0)
-    const [loadingText, setLoadingText] = useState('加载中')
-    const _onLayout = (e) => {
-        let {y} = e.nativeEvent.layout
-        setImgD(y)
-    }
+  useEffect(() => {
+    fetchImg();
+  }, [loaded]);
 
-    useEffect(()=>{
-        fetchImg()
-    },[loaded])
-
-    const loadText = (text:string) => {
-        return(
-            <View
-                style = {styles.loadContainer}
-                onLayout = {_onLayout}
-            >
-            <Text style = {styles.loadText}>{text}</Text>
-            </View>
-        )
-    }
-
-    const fetchImg = ()=>{
-        if(height+ Props.distance>=imgDistance){
-          InteractionManager.runAfterInteractions(() => {
-              const {source} = Props
-              if (source.uri) {
-                  // 如果是网络图片 在页面还未加载前，获取图片宽高
-                  Image.getSize(source.uri, (w, h) => {
-                      setImgHeight((h / w) * width)
-                      setLoaded(true)
-                  }, (err) => {
-                      setLoadingText('加载出错')
-                      setLoaded(true)
-                  })
-              }
-          })
-        }
-    }
-
+  const loadText = (text: string) => {
     return (
-        loaded?(
-            <View  onLayout={_onLayout}>
-                <Image  source = {Props.source}  resizeMode = {'contain'} style={Props.imageStyle || styles.imageStyle}/>
-            </View>
-        ):(
-            loadText(Props.loadingText || loadingText)
-        )
-    )
+      <View style={styles.loadContainer} onLayout={_onLayout}>
+        <Text style={styles.loadText}>{text}</Text>
+      </View>
+    );
+  };
+
+  const fetchImg = () => {
+    if (height + Props.distance >= imgDistance) {
+      InteractionManager.runAfterInteractions(() => {
+        const {source} = Props;
+        if (source.uri) {
+          Image.getSize(
+            source.uri,
+            (w, h) => {
+              setImgHeight((h / w) * width);
+              setLoaded(true);
+            },
+            err => {
+              setLoadingText('加载出错');
+              setLoaded(true);
+            },
+          );
+        }
+      });
+    }
+  };
+
+  return loaded ? (
+    <View onLayout={_onLayout}>
+      <Image
+        source={Props.source}
+        resizeMode={'contain'}
+        style={Props.imageStyle || styles.imageStyle}
+      />
+    </View>
+  ) : (
+    loadText(Props.loadingText || loadingText)
+  );
 }
 LazyLoad.defaultProps = {
-    placeholderImgWidth:400,
-    placeholderImgHeight:200,
-    placeholder:'placeholder',
-    loadingText:''
-}
+  placeholderImgWidth: 400,
+  placeholderImgHeight: 200,
+  placeholder: 'placeholder',
+  loadingText: '',
+};
 
 const styles = StyleSheet.create({
-    imageStyle: {
-        width: 360,
-        height: 260,
-        resizeMode:'cover',
-        borderRadius: 30,
-    },
-    loadContainer: {
-        backgroundColor: '#eee',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 100,
-        marginVertical: 10
-    },
-    loadText: {
-        fontSize: 20,
-        color: '#ccc'
-    }
+  imageStyle: {
+    width: 360,
+    height: 260,
+    resizeMode: 'cover',
+    borderRadius: 30,
+  },
+  loadContainer: {
+    backgroundColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+    marginVertical: 10,
+  },
+  loadText: {
+    fontSize: 20,
+    color: '#ccc',
+  },
 });
 
-export default LazyLoad
-
+export default LazyLoad;
