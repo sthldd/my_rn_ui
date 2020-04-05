@@ -35,7 +35,7 @@ interface Props {
   confirmButton: () => void;
 }
 
-function Waterfall(Props: Props, State: State) {
+function ModalWrapper(Props: Props, State: State) {
   return (
     <Modal
       visible={Props.isVisible}
@@ -146,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Waterfall;
+export default ModalWrapper;

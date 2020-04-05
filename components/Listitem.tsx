@@ -11,12 +11,13 @@ var {width} = Dimensions.get('window');
 interface State {}
 interface Props {
   thumbUrl?: string;
-  nodeText?: string;
-  itemText: string;
+  itemText?: string;
+  description: string;
   rightIcon?: boolean;
   rightText?: string;
   onPress?: () => void;
   extra?: React.ReactNode;
+  descriptionStyle?: React.CSSProperties;
 }
 
 function Listitem(Props: Props, State: State) {
@@ -26,13 +27,13 @@ function Listitem(Props: Props, State: State) {
         {Props.thumbUrl && (
           <Image source={{uri: Props.thumbUrl}} style={styles.itemLeftIcon} />
         )}
-        <Text style={styles.itemTextStyle}>{Props.itemText}</Text>
-        {Props.nodeText && (
+        <Text style={styles.itemTextStyle}>{Props.description}</Text>
+        {Props.itemText && (
           <Text
-            style={styles.nodeTextStyle}
+            style={Props.descriptionStyle || styles.nodeTextStyle}
             numberOfLines={1}
             ellipsizeMode="tail">
-            {Props.nodeText}
+            {Props.itemText}
           </Text>
         )}
       </View>
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   itemLeftIcon: {
     height: 30,
     width: 30,
-    marginRight: 8,
+    marginRight: 3,
   },
   itemTextStyle: {
     fontWeight: 'bold',
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   nodeTextStyle: {
     color: 'rgb(136, 136, 136)',
     fontSize: 12,
-    marginLeft: 5,
+    marginLeft: 15,
     maxWidth: width / 1.9,
   },
   rightIconStyle: {

@@ -13,11 +13,8 @@ interface State {
   loaded: false;
 }
 interface Props {
-  placeholderImgWidth: number;
-  placeholderImgHeight: number;
-  placeholder?: string;
   distance: number;
-  imageStyle: React.CSSProperties;
+  imageStyle?: React.CSSProperties;
   source: any;
   loadingText: string;
 }
@@ -27,7 +24,7 @@ function LazyLoad(Props: Props, State: State) {
   const [loaded, setLoaded] = useState(false);
   const [imgHeight, setImgHeight] = useState(0);
   const [loadingText, setLoadingText] = useState('加载中');
-  const _onLayout = e => {
+  const _onLayout = (e) => {
     let {y} = e.nativeEvent.layout;
     setImgD(y);
   };
@@ -55,7 +52,7 @@ function LazyLoad(Props: Props, State: State) {
               setImgHeight((h / w) * width);
               setLoaded(true);
             },
-            err => {
+            (err) => {
               setLoadingText('加载出错');
               setLoaded(true);
             },
@@ -78,9 +75,6 @@ function LazyLoad(Props: Props, State: State) {
   );
 }
 LazyLoad.defaultProps = {
-  placeholderImgWidth: 400,
-  placeholderImgHeight: 200,
-  placeholder: 'placeholder',
   loadingText: '',
 };
 
