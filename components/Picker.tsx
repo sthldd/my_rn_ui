@@ -4,24 +4,23 @@ var {width} = Dimensions.get('window');
 interface State {}
 interface Props {
   list: Array<any>;
-  wrapperHeight: number;
-  itemHeight: number;
+  wrapperHeight?: number;
+  itemHeight?: number;
   wrapperBackgroundColor?: string;
   highlightColor?: string;
   highlightWidth?: number;
   hairlineWidth?: number;
-  selectIndex: number;
-  renderItem(): React.ReactElement<any>;
-  onChange(): React.ReactElement<any>;
+  selectIndex?: number;
+  renderItem?: (value: string, index: number) => {};
+  onChange?: (value: string, index: number) => void;
 }
 
 function Picker(Props: Props, State: State) {
   const scrollView = useRef(null);
   const [dragStart, setDragStart] = useState(true);
   const [momentumStart, setMomentumStart] = useState(true);
+  const [curretnIndex, setCurretnIndex] = useState(0);
   const [wrapperContainer, setWrapperContainer] = useState({
-    borderWidth: 1,
-    borderColor: 'red',
     height: Props.wrapperHeight,
     backgroundColor: Props.wrapperBackgroundColor,
     overflow: 'hidden',
@@ -63,11 +62,11 @@ function Picker(Props: Props, State: State) {
   };
 
   let timeOut: any;
-  const onScrollBeginDrag = e => {
+  const onScrollBeginDrag = (e) => {
     timeOut && clearTimeout(timeOut);
   };
 
-  const onScrollEndDrag = e => {
+  const onScrollEndDrag = (e) => {
     setDragStart(false);
     let _e = {
       nativeEvent: {
@@ -84,7 +83,7 @@ function Picker(Props: Props, State: State) {
     }, 10);
   };
 
-  const scrollToIndex = e => {
+  const scrollToIndex = (e) => {
     let y = 0;
     if (e.nativeEvent.contentOffset) {
       y = e.nativeEvent.contentOffset.y;
@@ -95,18 +94,16 @@ function Picker(Props: Props, State: State) {
       y: offSetY * Props.itemHeight,
       animated: true,
     });
-
     if (Props.onChange) {
       let selectIndexValue = Props.list[offSetY];
       Props.onChange(selectIndexValue, offSetY);
     }
   };
-
   const onMomentumScrollBegin = () => {
     timeOut && clearTimeout(timeOut);
   };
 
-  const onMomentumScrollEnd = e => {
+  const onMomentumScrollEnd = (e) => {
     setMomentumStart(false);
     if (!momentumStart && !dragStart) {
       scrollToIndex(e);
@@ -151,6 +148,9 @@ Picker.defaultProps = {
   borderBottomWidth: 1,
   highlightWidth: width,
   wrapperBackgroundColor: '#fafafa',
+  selectIndex: 0,
+  wrapperHeight: 150,
+  itemHeight: 50,
 };
 
 const styles = StyleSheet.create({

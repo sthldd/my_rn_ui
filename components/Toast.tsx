@@ -19,24 +19,21 @@ interface option {
 
 export default class Toast {
   static showSuccess(message: string, option?: option) {
-    let opts = Object.assign({showInfo: true}, option);
+    let opts = Object.assign({showInfo: true, showSuccess: true}, option);
     this.show(message, opts);
   }
-
   static showFail(message: string, option?: option) {
-    let opts = Object.assign({showInfo: true}, option);
+    let opts = Object.assign({showInfo: true, showFail: true}, option);
     this.show(message, opts);
   }
   static showInfo(message: string, option?: option) {
     let opts = Object.assign({showInfo: true}, option);
     this.show(message, opts);
   }
-
   static showError(message: string, option?: option) {
-    let opts = Object.assign({showInfo: true}, option);
+    let opts = Object.assign({showInfo: true, showError: true}, option);
     this.show(message, opts);
   }
-
   static show(message: string, options: option) {
     if (rootSibling) {
       rootSibling.destroy();

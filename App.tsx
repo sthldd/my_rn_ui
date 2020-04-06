@@ -1,36 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
-import {Modal} from './components';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 var {width, height} = Dimensions.get('window');
-
+import {Popover} from './main.js';
 function App() {
-  const [distance, setDistance] = useState(0);
-  const childRef = useRef();
-  useEffect(() => {});
-  const _onPressButton = () => {
-    console.log('button');
-  };
-  const onChange = () => {};
-
-  const _onScroll = (e) => {
-    let {y} = e.nativeEvent.contentOffset;
-    setDistance(y);
-  };
+  const [visible, setVisible] = useState(false);
 
   return (
     <View style={styles.cell}>
-      <ScrollView onScroll={_onScroll}>
-        <Modal />
-      </ScrollView>
+      <View style={{marginTop: 50, marginLeft: 50}}>
+        <Text>11111</Text>
+        <Popover
+          isVisible={visible}
+          popoverContent={<Text style={{color: 'white'}}>我是popover内容</Text>}
+          buttonContent={<Text>我是button</Text>}
+        />
+      </View>
     </View>
   );
 }
@@ -41,7 +25,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 100,
   },
-  cell: {},
   btn: {
     width: 100,
     height: 50,

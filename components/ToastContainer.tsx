@@ -14,6 +14,7 @@ interface Props {
   textColor?: string;
 }
 function ToastContainer(Props: Props) {
+  console.log(Props);
   useEffect(() => {
     setTimeout(() => {
       Props.destroy();

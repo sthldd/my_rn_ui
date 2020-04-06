@@ -9,16 +9,14 @@ import {
   UIManager,
 } from 'react-native';
 var {width, height} = Dimensions.get('window');
-interface State {}
 interface Props {
-  overlay: JSX.Element;
   isVisible: boolean;
   popoverContent: JSX.Element;
   buttonContent: JSX.Element;
 }
 
 console.log();
-function Popover(Props: Props, State: State) {
+function Popover(Props: Props) {
   const [isVisible, setIsVisible] = useState(false);
   const [singleDown, setSingleDown] = useState(false);
   const [toggleContent, setToggleContent] = useState(false);
@@ -74,11 +72,11 @@ function Popover(Props: Props, State: State) {
     }
     setIsVisible(false);
   };
-  const onLayout = e => {
+  const onLayout = (e) => {
     setModalViewHeight(e.nativeEvent.layout.height);
   };
 
-  const getButtonContentHeight = e => {
+  const getButtonContentHeight = (e) => {
     setPopoverH(e.nativeEvent.layout.height);
   };
   const renderPopoverContent = () => {
@@ -101,12 +99,12 @@ function Popover(Props: Props, State: State) {
                 top: popoverComponentXY[1],
                 left: popoverComponentXY[0],
               }}
-              onLayout={event => getButtonContentHeight(event)}>
+              onLayout={(event) => getButtonContentHeight(event)}>
               {Props.buttonContent}
             </View>
           )}
           <View
-            onLayout={event => onLayout(event)}
+            onLayout={(event) => onLayout(event)}
             style={{
               position: 'relative',
               top: popoverTop,

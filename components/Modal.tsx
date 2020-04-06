@@ -8,13 +8,8 @@ import {
   Text,
   Image,
 } from 'react-native';
-
-interface State {
-  hasChildren: true;
-  transparent: false;
-  animationType: 'fade';
-  closeIconIsVisible: true;
-}
+var {width, height} = Dimensions.get('window');
+interface State {}
 interface Props {
   isVisible: boolean;
   onRequestClose?: () => void;
@@ -22,17 +17,16 @@ interface Props {
   transparent?: boolean;
   animationType?: 'none' | 'fade' | 'slide';
   onDismiss: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   hasChildren?: boolean;
   modalContentStyle?: React.CSSProperties;
-  // onBackdropPress?: () => void,
-  closeIconIsVisible: boolean;
+  closeIconIsVisible?: boolean;
   closeModal: () => void;
   modalTitle?: string;
   modalContent?: string;
-  showButton: boolean;
-  closeButton: () => void;
-  confirmButton: () => void;
+  showButton?: boolean;
+  closeButton?: () => void;
+  confirmButton?: () => void;
 }
 
 function ModalWrapper(Props: Props, State: State) {
@@ -48,12 +42,7 @@ function ModalWrapper(Props: Props, State: State) {
         {Props.hasChildren && Props.children ? (
           Props.children
         ) : (
-          <View
-            style={
-              Props.modalContentStyle
-                ? Props.modalContentStyle
-                : styles.contentStyle
-            }>
+          <View style={Props.modalContentStyle || styles.contentStyle}>
             <View style={styles.contentTop}>
               <Text style={styles.title}>{Props.modalTitle}</Text>
               {Props.closeIconIsVisible && (
@@ -91,6 +80,13 @@ function ModalWrapper(Props: Props, State: State) {
   );
 }
 
+ModalWrapper.defaultProps = {
+  animationType: 'fade',
+  hasChildren: true,
+  transparent: false,
+  closeIconIsVisible: true,
+};
+
 const styles = StyleSheet.create({
   backStyle: {
     flex: 1,
@@ -101,6 +97,9 @@ const styles = StyleSheet.create({
   },
   contentStyle: {
     width: 300,
+    minHeight: height / 6,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     backgroundColor: 'white',
   },
   title: {

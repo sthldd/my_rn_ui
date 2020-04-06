@@ -11,10 +11,11 @@ import {
 var {width} = Dimensions.get('window');
 interface State {}
 interface Props {
-  mode?: 'link' | 'close' | undefined;
-  onPress: () => void;
-  action: JSX.Element;
+  mode?: 'link' | 'close';
+  onPress?: () => void;
+  action?: JSX.Element;
   content: string;
+  noticeLeftIcon?: JSX.Element;
 }
 
 function NoticeBar(Props: Props, State: State) {
@@ -29,12 +30,15 @@ function NoticeBar(Props: Props, State: State) {
   };
 
   const rightIcon = () => {
+    console.log(Props.mode, 'Props.mode');
     return Props.mode === 'close' ? (
       <TouchableOpacity onPress={closeNotice}>
         <Image source={imgList[0]} style={styles.closeIcon} />
       </TouchableOpacity>
-    ) : (
+    ) : Props.mode === 'link' ? (
       <Image source={imgList[1]} style={styles.closeIcon} />
+    ) : (
+      ''
     );
   };
 
@@ -52,21 +56,20 @@ function NoticeBar(Props: Props, State: State) {
 
   return isVisible ? (
     <View style={styles.wapperContainer}>
-      <Image
-        source={require('../static/img/notice.png')}
-        style={styles.noticeIcon}
-      />
+      {Props.noticeLeftIcon || (
+        <Image
+          source={require('../static/img/notice.png')}
+          style={styles.noticeIcon}
+        />
+      )}
       {noticeText()}
-      {Props.mode
-        ? Props.mode !== '' && rightIcon()
-        : Props.action
-        ? Props.action
-        : null}
+      {Props.action || rightIcon() || null}
     </View>
   ) : null;
 }
 NoticeBar.defaultProps = {
   content: '',
+  mode: undefined,
 };
 
 const styles = StyleSheet.create({
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 5,
+    marginTop: 15,
   },
   noticeIcon: {
     width: 30,
