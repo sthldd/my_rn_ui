@@ -10,7 +10,7 @@
 <SegmentedControl values={['Segment1', 'Segment2']} onChange={onChange}/>
 ```
 
-![856A88E85E2BC8D634344C4D1EC400AC.png](https://upload-images.jianshu.io/upload_images/6300784-b36b098977f8ee2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![856A88E85E2BC8D634344C4D1EC400AC.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/856A88E85E2BC8D634344C4D1EC400AC.png)
 | 属性 | 说明 | 类型 | 默认值 |
 | --------------------- | :-------------------------------------------------------------------------: | :-------: | :---------------: |
 | values | 选项数组,值是字符串 | Array | [] |
@@ -66,7 +66,7 @@ const _onLayout = (e) => {
 />
 ```
 
-![817330CBD22923C6064A33FD59CE2CFB.png](https://upload-images.jianshu.io/upload_images/6300784-9798cf33e2cbc922.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![817330CBD22923C6064A33FD59CE2CFB.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/817330CBD22923C6064A33FD59CE2CFB.png)
 | 属性 | 说明 | 类型 | 默认值 |
 | ---------------- | :----------------: | :-------: | :----------: |
 | thumbUrl | listItem 左边的图标 | String | '' |
@@ -90,7 +90,7 @@ const _onLayout = (e) => {
 />
 ```
 
-![FB6089121599FD4A4792E9E152BB8721.png](https://upload-images.jianshu.io/upload_images/6300784-e5a2517364a7b86c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![FB6089121599FD4A4792E9E152BB8721.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/FB6089121599FD4A4792E9E152BB8721.png)
 | 属性 | 说明 | 类型 | 默认值 |
 | -------------- | :----------------------------: | :----------: | :-------------------: |
 | mode | 提示类型，可选 close,link | String | '' |
@@ -110,7 +110,7 @@ const _onLayout = (e) => {
 />
 ```
 
-![D2A6995753064AF5A6B40909E315F267.png](https://upload-images.jianshu.io/upload_images/6300784-e5c330e089f4da28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![D2A6995753064AF5A6B40909E315F267.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/D2A6995753064AF5A6B40909E315F267.png)
 
 | 属性                   |                    说明                     | 类型     | 默认值 |
 | ---------------------- | :-----------------------------------------: | :------- | :----: |
@@ -213,7 +213,7 @@ const onToastShow = () => {
 />
 ```
 
-![32B37FC23CA53B62D8433B9026F13132.png](https://upload-images.jianshu.io/upload_images/6300784-8bb2a533f924d533.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![32B37FC23CA53B62D8433B9026F13132.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/32B37FC23CA53B62D8433B9026F13132.png)
 | 属性 | 说明 | 类型 | 默认值 |
 | -------------- | :-----------: | :----------: | :----: |
 | isVisible | 是否显示 | boolean | false |
