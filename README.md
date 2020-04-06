@@ -132,7 +132,7 @@ const _onLayout = (e) => {
 />
 ```
 
-![08446CEDA10BE96F3014340B7C4CB735.png](https://upload-images.jianshu.io/upload_images/6300784-da3c75183b6b7610.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![08446CEDA10BE96F3014340B7C4CB735.png](https://github.com/sthldd/my_rn_ui/blob/master/static/componentImage/08446CEDA10BE96F3014340B7C4CB735.png)
 
 | 属性              |        说明         |     类型     |     默认值     |
 | ----------------- | :-----------------: | :----------: | :------------: |
